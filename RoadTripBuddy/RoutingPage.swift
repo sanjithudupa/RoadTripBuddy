@@ -19,6 +19,10 @@ struct RoutingPage: View {
     @State private var targetCoords: CLLocationCoordinate2D = .init()
     @State private var showingMap = false;
     
+    
+    @State private var calculating: Bool = false;
+    @State private var setRoute: MKRoute? = nil;
+    
     @EnvironmentObject var env : AppEnvironmentData
     
     var body: some View {
@@ -67,12 +71,35 @@ struct RoutingPage: View {
                             .cornerRadius(25)
                     }
                 }.padding()
+                
+                if (setRoute != nil) {
+                    Spacer()
+                        .frame(height: 60)
+                    Text("Route Info:")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                    
+                    HStack {
+                        Text("Distance:")
+                        Text(String(format: "%.2f miles", (setRoute!.distance.magnitude) * 0.000621371))
+                            .foregroundColor(.orange)
+                            .fontWeight(.black)
+                    }
+                    
+                    HStack {
+                        Text("Travel Time:")
+                        Text(String(format: "%.2f hours", (setRoute!.expectedTravelTime.magnitude.truncatingRemainder(dividingBy: 86400)) / 3600))
+                            .foregroundColor(.orange)
+                            .fontWeight(.black)
+                    }
+                }
 
                 Spacer()
                 
-                
                 Button(role: .cancel, action: {
-                    self.env.currentPage = .Map
+                    if (setRoute != nil) {
+                        self.env.currentPage = .Map;
+                    }
                 }) {
                     Text("Let's go!")
                         .foregroundColor(.white)
@@ -107,6 +134,14 @@ struct RoutingPage: View {
                 .onChange(of: targetCoords.latitude){_ in
                     refreshTargetText()
                 }
+            
+            ProgressView()
+                .progressViewStyle(.circular)
+                .frame(width: 60, height: 60)
+                .background(.gray.opacity(0.25))
+                .cornerRadius(20)
+                .opacity(calculating ? 1 : 0)
+                .animation(.spring(), value: calculating)
 
 
         }.onAppear {
@@ -139,7 +174,37 @@ struct RoutingPage: View {
                         target = ""
                     }
                 }
+            
+                calculateRoute()
             }
+    }
+    
+    func calculateRoute() {
+        calculating = true;
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: LocationManager.getInstance().getLocation().coordinate))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: targetCoords));
+        request.transportType = .automobile
+        request.requestsAlternateRoutes = false;
+        
+        let directions = MKDirections(request: request)
+        directions.calculate { [] response, error in
+            guard let unwrappedResponse = response else { return }
+            
+            let route = unwrappedResponse.routes.first
+            if let route = route {
+                SharedData.getInstance().chosenRoute = route
+                calculating = false;
+                setRoute = route;
+            }
+        }
+        
+        // self.env.currentPage = .Map
+    }
+    
+    func displayRouteInfo() {
+        
     }
 }
 
