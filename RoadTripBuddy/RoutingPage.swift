@@ -19,20 +19,22 @@ struct RoutingPage: View {
     @State private var targetCoords: CLLocationCoordinate2D = .init()
     @State private var showingMap = false;
     
+    @EnvironmentObject var env : AppEnvironmentData
+    
     var body: some View {
         ZStack {
             VStack {
-                Text("Where to?")
+                Text("Road Trip Planning")
                     .font(.title)
                     .fontWeight(.heavy)
                 
-                Text("Where should we route to?")
+                Text("Where are you headed?")
                 
                 Spacer()
                     .frame(height: 50)
                 
                 
-                Text("From:")
+                Text("Starting from:")
                 HStack {
                     TextField("Starting Location", text: $starting)
                         .padding()
@@ -49,7 +51,7 @@ struct RoutingPage: View {
                     }
                 }.padding()
                 
-                Text("To:")
+                Text("Going to:")
                 HStack {
                     TextField("Target Location", text: $target)
                         .padding()
@@ -69,7 +71,9 @@ struct RoutingPage: View {
                 Spacer()
                 
                 
-                Button(role: .cancel, action: {}) {
+                Button(role: .cancel, action: {
+                    self.env.currentPage = .Map
+                }) {
                     Text("Let's go!")
                         .foregroundColor(.white)
                         .font(.title3)
@@ -121,7 +125,7 @@ struct RoutingPage: View {
 //                print("fetched")
                 print(currentLocation.latitude)
             }
-        }
+        }.navigationBarHidden(true).navigationBarTitle("")
     }
     
     func refreshTargetText() {
@@ -130,7 +134,7 @@ struct RoutingPage: View {
                     target = ""
                 } else {
                     if let placemarks = placemarks, let placemark = placemarks.first {
-                        target = (placemark.name ?? "") + (placemark.thoroughfare ?? "")
+                        target = (placemark.subThoroughfare ?? "") + " " + (placemark.thoroughfare ?? "")
                     } else {
                         target = ""
                     }

@@ -16,6 +16,7 @@
 		D8C481A328393C1300960667 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481A228393C1300960667 /* LocationManager.swift */; };
 		D8C481A52839499700960667 /* TargetChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481A42839499700960667 /* TargetChooser.swift */; };
 		D8C481A728395D7B00960667 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481A628395D7B00960667 /* VisualEffectView.swift */; };
+		D8C481A92839715900960667 /* MappingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481A82839715900960667 /* MappingPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		D8C481A228393C1300960667 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D8C481A42839499700960667 /* TargetChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetChooser.swift; sourceTree = "<group>"; };
 		D8C481A628395D7B00960667 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		D8C481A82839715900960667 /* MappingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappingPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				D8C481A228393C1300960667 /* LocationManager.swift */,
 				D8C481A42839499700960667 /* TargetChooser.swift */,
 				D8C481A628395D7B00960667 /* VisualEffectView.swift */,
+				D8C481A82839715900960667 /* MappingPage.swift */,
 			);
 			path = RoadTripBuddy;
 			sourceTree = "<group>";
@@ -161,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C481A92839715900960667 /* MappingPage.swift in Sources */,
 				D8C481A328393C1300960667 /* LocationManager.swift in Sources */,
 				D8C4819228392F9B00960667 /* ContentView.swift in Sources */,
 				D8C481A12839316400960667 /* RoutingPage.swift in Sources */,

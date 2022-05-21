@@ -14,11 +14,11 @@ struct TargetChooser: View {
     @Binding var region: MKCoordinateRegion;
     @Binding var showing: Bool;
     @Binding var chosenLocation: CLLocationCoordinate2D;
-//    @State var suggestion: String = "";
+    @State var suggestion: String = "";
 //    @State var commitable: Bool = false;
     
     @State var timer: Timer? = nil;
-    @State var lastMoveTimestamp = DispatchTime.now()
+    @State var lastPosition: CLLocationCoordinate2D = .init();
     
     var body: some View {
         VStack {
@@ -27,11 +27,11 @@ struct TargetChooser: View {
             
             ZStack {
                 Map(coordinateRegion: $region)
-                    .frame(width: 250, height: 300)// height: commitable ? 300 : 330)
+                    .frame(width: 250, height: 300)
                    .cornerRadius(10)
-//                   .onChange(of: region.span) {_ in
-//                       commitable = true;
-//                   }
+                   .onChange(of: region.span) {_ in
+//                       determineSuggestion()
+                   }
                 Image(systemName: "mappin.circle")
                     .resizable()
                     .offset(y: -25)
@@ -39,6 +39,8 @@ struct TargetChooser: View {
                     .foregroundColor(.orange)
                     .shadow(radius: 5)
                     
+//                Text(suggestion)
+//                    .offset(y: 55)
             }
             
             Button(role:.cancel, action: {
@@ -50,13 +52,11 @@ struct TargetChooser: View {
             }
             .buttonStyle(.bordered)
 //            .opacity(commitable ? 1 :0)
-//            Text(suggestion)
         }
         .frame(width: 280, height: 400)
         .background()
         .cornerRadius(30)
         .shadow(color: .orange.opacity(0.5), radius: 50, x: 5, y: 10)
-//        .animation(.spring(), value: commitable)
 //        .onAppear {
 //            timer?.invalidate()
 ////            timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
@@ -71,23 +71,30 @@ struct TargetChooser: View {
         
     }
     
-//    func determineSuggestion() {
-//        LocationManager.getInstance().geocoder.reverseGeocodeLocation(CLLocation(latitude: region.center.latitude, longitude: region.center.longitude)) { placemarks, error in
-//            if error != nil {
-//                suggestion = ""
-//            } else {
-//                if let placemarks = placemarks, let placemark = placemarks.first {
-//                    if let locale = placemark.locality {
-//                        suggestion = "In " + locale
-//                    } else {
-//                        suggestion = ""
-//                    }
-//                } else {
-//                    suggestion = ""
-//                }
-//            }
-//        }
-//    }
+    func determineSuggestion() {
+        guard CLLocation(latitude: region.center.latitude, longitude: region.center.longitude).distance(from: CLLocation(latitude: lastPosition.latitude, longitude: lastPosition.longitude)) > 50 else { return }
+        lastPosition = region.center;
+        
+        LocationManager.getInstance().geocoder.reverseGeocodeLocation(CLLocation(latitude: region.center.latitude, longitude: region.center.longitude)) { placemarks, error in
+            var str = ""
+            
+            if error != nil {
+                str = ""
+            } else {
+                if let placemarks = placemarks, let placemark = placemarks.first {
+                    str = "Near " + (placemark.thoroughfare ?? "")
+                } else {
+                    str = ""
+                }
+            }
+            
+            DispatchQueue.main.async {
+                if (str != "") {
+                    suggestion = str;
+                }
+            }
+        }
+    }
 }
 
 //struct Pvw : View {
