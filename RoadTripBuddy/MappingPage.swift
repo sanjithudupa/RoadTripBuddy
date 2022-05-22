@@ -21,11 +21,11 @@ struct MappingPage: View {
     
     var body: some View {
             ZStack {
-//                MapView(
-//                    region: $region,
-//                    inputPolyline: SharedData.getInstance().chosenRoute.polyline
-//                    )
-//                    .edgesIgnoringSafeArea(.all)
+                MapView(
+                    region: $region,
+                    inputPolyline: SharedData.getInstance().chosenRoute.polyline
+                )
+                .edgesIgnoringSafeArea(.all)
                 
                 ZStack {
                     Picker("FAB", selection: $fabSelection) {
@@ -39,7 +39,16 @@ struct MappingPage: View {
                     .pickerStyle(.menu)
                     .onChange(of: fabSelection) { _ in
                         if (fabSelection != "Cancel") {
-                            
+                            switch fabSelection {
+                            case "Gas":
+                                gasRequest()
+                            case "Food":
+                                foodRequest()
+                            case "Hotel":
+                                hotelRequest()
+                            default:
+                                storeRequest()
+                            }
                             fabSelection = "Cancel"
                         }
                     }
@@ -210,10 +219,25 @@ struct MappingPage: View {
     }
     
     func gasRequest() {
+//        let pt = Util.determineForwardPoint(radius: 20, closestInput: nil, cIDX: nil)
+        
+        let pt = Util.determineSearchPoint(inTheNext: 20)
+        print(pt.longitude)
+        print(pt.latitude)
+        print("curloc")
+        print(LocationManager.getInstance().getLocation().coordinate.longitude)
+        print(LocationManager.getInstance().getLocation().coordinate.latitude)
+    }
+    
+    func foodRequest() {
         
     }
     
-    func hotelReuest() {
+    func storeRequest() {
+        
+    }
+    
+    func hotelRequest() {
         
     }
 }
@@ -265,5 +289,16 @@ class Coordinator: NSObject, MKMapViewDelegate {
 struct MappingPage_Previews: PreviewProvider {
     static var previews: some View {
         MappingPage()
+    }
+}
+
+public extension MKMultiPoint {
+    var coordinates: [CLLocationCoordinate2D] {
+        var coords = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid,
+                                              count: pointCount)
+
+        getCoordinates(&coords, range: NSRange(location: 0, length: pointCount))
+
+        return coords
     }
 }

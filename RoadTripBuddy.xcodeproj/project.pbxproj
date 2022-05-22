@@ -18,6 +18,10 @@
 		D8C481A728395D7B00960667 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481A628395D7B00960667 /* VisualEffectView.swift */; };
 		D8C481A92839715900960667 /* MappingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481A82839715900960667 /* MappingPage.swift */; };
 		D8C481AB28397F5B00960667 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481AA28397F5B00960667 /* SharedData.swift */; };
+		D8C481AE283A96FF00960667 /* CDYelpFusionKit in Frameworks */ = {isa = PBXBuildFile; productRef = D8C481AD283A96FF00960667 /* CDYelpFusionKit */; };
+		D8C481B0283A971600960667 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481AF283A971600960667 /* Secret.swift */; };
+		D8C481B2283A984600960667 /* BusinessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B1283A984600960667 /* BusinessManager.swift */; };
+		D8C481B4283A9D1200960667 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B3283A9D1200960667 /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +37,9 @@
 		D8C481A628395D7B00960667 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		D8C481A82839715900960667 /* MappingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappingPage.swift; sourceTree = "<group>"; };
 		D8C481AA28397F5B00960667 /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
+		D8C481AF283A971600960667 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		D8C481B1283A984600960667 /* BusinessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessManager.swift; sourceTree = "<group>"; };
+		D8C481B3283A9D1200960667 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C481AE283A96FF00960667 /* CDYelpFusionKit in Frameworks */,
 				D8C4819F283930CE00960667 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +85,9 @@
 				D8C481A628395D7B00960667 /* VisualEffectView.swift */,
 				D8C481A82839715900960667 /* MappingPage.swift */,
 				D8C481AA28397F5B00960667 /* SharedData.swift */,
+				D8C481AF283A971600960667 /* Secret.swift */,
+				D8C481B1283A984600960667 /* BusinessManager.swift */,
+				D8C481B3283A9D1200960667 /* Util.swift */,
 			);
 			path = RoadTripBuddy;
 			sourceTree = "<group>";
@@ -113,6 +124,9 @@
 			dependencies = (
 			);
 			name = RoadTripBuddy;
+			packageProductDependencies = (
+				D8C481AD283A96FF00960667 /* CDYelpFusionKit */,
+			);
 			productName = RoadTripBuddy;
 			productReference = D8C4818C28392F9B00960667 /* RoadTripBuddy.app */;
 			productType = "com.apple.product-type.application";
@@ -141,6 +155,9 @@
 				Base,
 			);
 			mainGroup = D8C4818328392F9B00960667;
+			packageReferences = (
+				D8C481AC283A96FE00960667 /* XCRemoteSwiftPackageReference "CDYelpFusionKit" */,
+			);
 			productRefGroup = D8C4818D28392F9B00960667 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -167,13 +184,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C481B4283A9D1200960667 /* Util.swift in Sources */,
 				D8C481A92839715900960667 /* MappingPage.swift in Sources */,
 				D8C481A328393C1300960667 /* LocationManager.swift in Sources */,
 				D8C4819228392F9B00960667 /* ContentView.swift in Sources */,
 				D8C481A12839316400960667 /* RoutingPage.swift in Sources */,
 				D8C481AB28397F5B00960667 /* SharedData.swift in Sources */,
+				D8C481B2283A984600960667 /* BusinessManager.swift in Sources */,
 				D8C4819028392F9B00960667 /* RoadTripBuddyApp.swift in Sources */,
 				D8C481A52839499700960667 /* TargetChooser.swift in Sources */,
+				D8C481B0283A971600960667 /* Secret.swift in Sources */,
 				D8C481A728395D7B00960667 /* VisualEffectView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +399,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D8C481AC283A96FE00960667 /* XCRemoteSwiftPackageReference "CDYelpFusionKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/chrisdhaan/CDYelpFusionKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D8C481AD283A96FF00960667 /* CDYelpFusionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8C481AC283A96FE00960667 /* XCRemoteSwiftPackageReference "CDYelpFusionKit" */;
+			productName = CDYelpFusionKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D8C4818428392F9B00960667 /* Project object */;
 }

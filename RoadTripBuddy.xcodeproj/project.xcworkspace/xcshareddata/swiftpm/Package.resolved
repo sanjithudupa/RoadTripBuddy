@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "354dda32d89fc8cd4f5c46487f64957d355f53d8",
+          "version": "5.6.1"
+        }
+      },
+      {
+        "package": "CDYelpFusionKit",
+        "repositoryURL": "https://github.com/chrisdhaan/CDYelpFusionKit.git",
+        "state": {
+          "branch": null,
+          "revision": "35bec19c273b71c0082afb37b272ed62df6545f8",
+          "version": "3.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
