@@ -201,6 +201,7 @@ struct RoutingPage: View {
             let route = unwrappedResponse.routes.first
             if let route = route {
                 SharedData.getInstance().chosenRoute = route
+                SharedData.getInstance().startTime = Date()
                 calculating = false;
                 setRoute = route;
             }

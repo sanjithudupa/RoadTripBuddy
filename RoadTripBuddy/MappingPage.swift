@@ -11,11 +11,12 @@ import MapKit
 struct MappingPage: View {
     @EnvironmentObject var env : AppEnvironmentData
     
-    @State private var fabSelection = ""
     @State private var infoAlert = false;
     @State private var showingSteps = false;
     @State private var region = MKCoordinateRegion(SharedData.getInstance().chosenRoute.polyline.boundingMapRect);
-    let fabActions = ["Red", "Green", "Blue", "Black", "Tartan"]
+    
+    @State private var fabSelection = "Cancel"
+    let fabActions = ["Cancel", "Gas", "Food", "Hotel", "Shopping"]
     
     
     var body: some View {
@@ -36,6 +37,12 @@ struct MappingPage: View {
                     .padding()
                     .frame(width: 60, height: 60)
                     .pickerStyle(.menu)
+                    .onChange(of: fabSelection) { _ in
+                        if (fabSelection != "Cancel") {
+                            
+                            fabSelection = "Cancel"
+                        }
+                    }
                     
                     Image(systemName: "plus.app.fill")
                         .resizable()
@@ -44,6 +51,7 @@ struct MappingPage: View {
                         .background(.white)
                         .cornerRadius(15)
                         .allowsHitTesting(false)
+                        .shadow(radius: 15)
                 }
                 .offset(x: -150, y: UIScreen.main.bounds.height/2 - 115)
                 
@@ -55,6 +63,7 @@ struct MappingPage: View {
                             .foregroundColor(.orange)
                             .background(.white)
                             .cornerRadius(30)
+                            .shadow(radius: 15)
                     }
                     
                     Button(role: .cancel, action: viewDirections) {
@@ -64,17 +73,61 @@ struct MappingPage: View {
                             .foregroundColor(.orange)
                             .background(.white)
                             .cornerRadius(8)
+                            .shadow(radius: 15)
                     }.sheet(isPresented: $showingSteps) {
-                        List() {
-                            ForEach(SharedData.getInstance().chosenRoute.steps, id: \.self) { step in
-                                VStack {
-                                    if (step.instructions != "") {
-                                        Text(step.instructions)
-                                            .font(.title3)
-                                        Text(String(format: "%.2f miles", (step.distance.magnitude) * 0.000621371))
-                                            .font(.caption)
+                        VStack {
+                            Text("Upcoming Directions:")
+                                .font(.title2)
+                                .fontWeight(.heavy)
+                                .padding()
+                            List() {
+                                ForEach(rmFirstTwo(steps: SharedData.getInstance().chosenRoute.steps), id: \.self) { step in
+                                    
+                                    if (!step.instructions.isEmpty) {
+                                        VStack {
+                                            HStack {
+                                                Image(systemName: getImageForStep(step: step.instructions))
+                                                    .resizable()
+                                                    .frame(width: 25, height: 25)
+                                                    .foregroundColor(.orange)
+                                                    .shadow(radius: 15)
+                                                
+                                                Text(step.instructions)
+                                                    .font(.title3)
+                                                    .shadow(radius: 15)
+                                                Spacer()
+                                                
+                                            }
+                                            HStack(alignment: .bottom){
+                                                Text(String(format: "%.2f miles", (step.distance.magnitude) * 0.000621371))
+                                                    .font(.caption)
+                                                    .shadow(radius: 15)
+                                                Text(step.notice ?? "")
+                                                    .font(.caption)
+                                                    .fontWeight(.thin)
+                                                    .shadow(radius: 15)
+                                                Spacer()
+                                            }
+                                        }
                                     }
-                                }.padding()
+                                }
+                                Button(action: {
+                                    let url = URL(string: "https://designcode.io")
+                                    let activityController = UIActivityViewController(activityItems: [url!], applicationActivities: nil)
+
+                                    UIApplication.shared.windows.first?.rootViewController!.present(activityController, animated: true, completion: nil)
+                                }) {
+                                    HStack {
+                                        Spacer()
+                                        Image(systemName: "square.and.arrow.up")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 45, height: 45)
+                                            .foregroundColor(.orange)
+                                            .shadow(radius: 10)
+                                        Spacer()
+                                    }
+                                }
                             }
                         }
                     }
@@ -88,10 +141,26 @@ struct MappingPage: View {
                         .foregroundColor(.orange)
                         .background(.white)
                         .cornerRadius(30)
+                        .shadow(radius: 15)
                 }.offset(x: 45 - UIScreen.main.bounds.width/2, y: 80 - UIScreen.main.bounds.height/2)
                     .alert(isPresented: $infoAlert) {
                         Alert(title: Text("Route Details:"), message: Text(getRouteDescription()), dismissButton: .default(Text("OK")))
                     }
+                
+                ZStack {
+                    Color.white
+                        .frame(width: 145, height: 55)
+                        .cornerRadius(15)
+                        .shadow(radius: 20)
+                    VStack {
+                        HStack(spacing: 0.5) {
+                            Text("ETA: ")
+                                .fontWeight(.heavy)
+                            Text(getETA())
+                        }
+                    }
+                }.offset(x: UIScreen.main.bounds.width/2 - 92.5, y: 80 - UIScreen.main.bounds.height/2)
+                
                 
             }
             .navigationBarHidden(true).navigationBarTitle("")
@@ -99,6 +168,12 @@ struct MappingPage: View {
     
     func resetLocation() {
         region.center = LocationManager.getInstance().getLocation().coordinate
+    }
+    
+    func getETA() -> String {
+        let df = DateFormatter()
+        df.dateFormat = "h:mm a"
+        return df.string(from: SharedData.getInstance().startTime.addingTimeInterval(SharedData.getInstance().chosenRoute.expectedTravelTime))
     }
     
     func viewDirections() {
@@ -111,6 +186,35 @@ struct MappingPage: View {
         let time = String(format: "%.2f hours", (SharedData.getInstance().chosenRoute.expectedTravelTime.magnitude.truncatingRemainder(dividingBy: 86400)) / 3600);
         
         return "Total Distance: " + dist + "\nTotal Time: " + time;
+    }
+    
+    func rmFirstTwo(steps: [MKRoute.Step]) -> [MKRoute.Step] {
+        var n = steps
+        n.removeFirst(2)
+        return n;
+    }
+    
+    func getImageForStep(step: String) -> String {
+        if (step.lowercased().contains("keep") || step.lowercased().contains("merge")) {
+            return "arrow.up." + (step.lowercased().contains("right") ? "right" : "left")
+        } else if (step.lowercased().contains("left")) {
+            return "arrow.turn.up.left"
+        } else if (step.lowercased().contains("right")) {
+            return "arrow.turn.up.right"
+        } else if (step.lowercased().contains("exit")) {
+            return "arrow.down.right"
+        }  else if (step.lowercased().contains("arrive")) {
+            return "mappin.and.ellipse"
+        }
+        return "arrow.up"
+    }
+    
+    func gasRequest() {
+        
+    }
+    
+    func hotelReuest() {
+        
     }
 }
 

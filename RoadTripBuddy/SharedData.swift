@@ -16,4 +16,5 @@ class SharedData {
     }
     
     public var chosenRoute: MKRoute = .init()
+    public var startTime: Date = .init()
 }
