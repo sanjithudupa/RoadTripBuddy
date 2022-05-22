@@ -16,7 +16,12 @@ struct MappingPage: View {
     @State private var region = MKCoordinateRegion(SharedData.getInstance().chosenRoute.polyline.boundingMapRect);
     
     @State private var fabSelection = "Cancel"
-    let fabActions = ["Cancel", "Gas", "Food", "Hotel", "Shopping"]
+    let fabActions = ["Cancel", "Gas", "Food", "Hotel", "Stores"]
+    
+    @State private var asking = false;
+    @State private var queryRadius = 0;
+    
+    @State private var loading = false;
     
     
     var body: some View {
@@ -34,22 +39,13 @@ struct MappingPage: View {
                                 .foregroundColor(.white)
                         }
                     }
+                    .labelsHidden()
                     .padding()
                     .frame(width: 60, height: 60)
                     .pickerStyle(.menu)
                     .onChange(of: fabSelection) { _ in
                         if (fabSelection != "Cancel") {
-                            switch fabSelection {
-                            case "Gas":
-                                gasRequest()
-                            case "Food":
-                                foodRequest()
-                            case "Hotel":
-                                hotelRequest()
-                            default:
-                                storeRequest()
-                            }
-                            fabSelection = "Cancel"
+                            asking = true;
                         }
                     }
                     
@@ -161,15 +157,68 @@ struct MappingPage: View {
                         .frame(width: 145, height: 55)
                         .cornerRadius(15)
                         .shadow(radius: 20)
-                    VStack {
-                        HStack(spacing: 0.5) {
-                            Text("ETA: ")
-                                .fontWeight(.heavy)
-                            Text(getETA())
-                        }
+                    HStack(spacing: 0.5) {
+                        Text("ETA: ")
+                            .fontWeight(.heavy)
+                        Text(getETA())
                     }
                 }.offset(x: UIScreen.main.bounds.width/2 - 92.5, y: 80 - UIScreen.main.bounds.height/2)
                 
+                ZStack {
+                    VisualEffectView(effect: UIBlurEffect(style: .light))
+                        .edgesIgnoringSafeArea(.all)
+                        .opacity(asking ? 1 : 0)
+                        .animation(.spring(), value: asking)
+                        .onTapGesture {
+                            asking = false;
+                            fabSelection = "Cancel";
+                        }
+
+                    Group {
+                        Color.white
+                            .frame(width: 300, height: 180)
+                            .cornerRadius(15)
+                            .shadow(radius: 20)
+                        VStack {
+                            Text("How far should I search for " + fabSelection.lowercased() + "?")
+                                .fontWeight(.semibold)
+                            TextField("Distance in Miles", value: $queryRadius, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .keyboardType(.numberPad)
+                                .padding()
+                                .frame(width: 280)
+                                .shadow(radius: 15)
+                            Button(role:.cancel, action: {
+                                asking = false;
+                                requestFor(requestType: fabSelection)
+                            }) {
+                                Text("Search")
+                                    .foregroundColor(.orange)
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                    .offset(y: asking ? 0 : 550)
+                    .animation(.spring(), value: asking)
+                }
+                
+                Group {
+                    VisualEffectView(effect: UIBlurEffect(style: .light))
+                        .edgesIgnoringSafeArea(.all)
+                    
+                    VStack {
+                        Text("Searching...")
+                            .fontWeight(.thin)
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .frame(width: 60, height: 60)
+                            .background(.gray.opacity(0.25))
+                            .cornerRadius(20)
+                    }
+                }
+                .opacity(loading ? 1 : 0)
+                .animation(.spring(), value: loading)
+
                 
             }
             .navigationBarHidden(true).navigationBarTitle("")
@@ -218,27 +267,11 @@ struct MappingPage: View {
         return "arrow.up"
     }
     
-    func gasRequest() {
-//        let pt = Util.determineForwardPoint(radius: 20, closestInput: nil, cIDX: nil)
-        
-        let pt = Util.determineSearchPoint(inTheNext: 20)
-        print(pt.longitude)
-        print(pt.latitude)
-        print("curloc")
-        print(LocationManager.getInstance().getLocation().coordinate.longitude)
-        print(LocationManager.getInstance().getLocation().coordinate.latitude)
-    }
-    
-    func foodRequest() {
-        
-    }
-    
-    func storeRequest() {
-        
-    }
-    
-    func hotelRequest() {
-        
+    func requestFor(requestType: String) {
+        loading = true;
+        fabSelection = "Cancel";
+        let centerPoint = Util.determineSearchPoint(inTheNext: 20)
+        print(centerPoint)
     }
 }
 
