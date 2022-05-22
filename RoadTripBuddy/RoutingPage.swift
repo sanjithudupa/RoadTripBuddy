@@ -109,6 +109,7 @@ struct RoutingPage: View {
                         .frame(width: 200)
                         .background(.orange)
                         .cornerRadius(10)
+                        .disabled(setRoute == nil)
                         .padding()
                 }
             }
@@ -134,6 +135,11 @@ struct RoutingPage: View {
                 .onChange(of: targetCoords.latitude){_ in
                     refreshTargetText()
                 }
+            
+            VisualEffectView(effect: UIBlurEffect(style: .dark))
+                .edgesIgnoringSafeArea(.all)
+                .opacity(calculating ? 1 : 0)
+                .animation(.spring(), value: calculating)
             
             ProgressView()
                 .progressViewStyle(.circular)
