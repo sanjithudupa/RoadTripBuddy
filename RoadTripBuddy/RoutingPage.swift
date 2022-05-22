@@ -28,7 +28,7 @@ struct RoutingPage: View {
     var body: some View {
         ZStack {
             VStack {
-                Text("Road Trip Planning")
+                Text("Road Trip Companion")
                     .font(.title)
                     .fontWeight(.heavy)
                 
@@ -92,6 +92,11 @@ struct RoutingPage: View {
                             .foregroundColor(.orange)
                             .fontWeight(.black)
                     }
+                } else {
+                    Text("Choose a starting point and a destination to begin guided navigation.")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .padding(25)
                 }
 
                 Spacer()
@@ -162,15 +167,6 @@ struct RoutingPage: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 currentLocation = LocationManager.getInstance().getLocation().coordinate;
                 region = MKCoordinateRegion(center: currentLocation, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
-                
-                
-                WeatherManager.getInstance().getConditionsAtTime(location: currentLocation, time: Date(), cb: { conditions in
-                    
-                    print("Conditions")
-                    print(conditions.weathercode)
-                    print(conditions.tempFah)
-                    
-                })
 
                 
 //                print("fetched")

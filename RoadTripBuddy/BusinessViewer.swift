@@ -58,6 +58,8 @@ struct Business: View {
     @State var rating: Double = 0;
     @State var location: CLLocationCoordinate2D = .init();
     
+    @State var weatherConditions: WeatherManager.WeatherConditions = .init(weathercode: 0, tempFah: 0)
+    
     var body: some View {
         ZStack {
             Color.white
@@ -82,7 +84,7 @@ struct Business: View {
                                         }
                                     }
                                 
-                                Text(String(format: "%.2f miles away", LocationManager.getInstance().getLocation().distance(from: CLLocation(latitude: location.latitude, longitude: location.longitude)) / 1609))
+                                Text(String(format: "%.2f mi", LocationManager.getInstance().getLocation().distance(from: CLLocation(latitude: location.latitude, longitude: location.longitude)) / 1609))
                             }
                         }
                         .padding()
@@ -94,7 +96,9 @@ struct Business: View {
                             Text(String(rating) + " ⭐")
                                 .font(.title3)
                             HStack {
-                                
+                                Text(String(weatherConditions.tempFah) + "°F")
+                                Image(systemName: WeatherManager.WMO_IMAGE_REFERENCE[weatherConditions.weathercode] ?? "cloud.fill")
+                                    .foregroundColor(.orange)
                                 Text(price)
                                     .fontWeight(.bold)
                             }
@@ -143,6 +147,11 @@ struct Business: View {
             phone = business.phone ?? "No phone listed";
             rating = business.rating ?? 0;
             location = business.getCoordinates()
+            
+            
+            WeatherManager.getInstance().getConditionsAtTime(location: location, time: Date(), cb: { conditions in
+                weatherConditions = conditions;
+            })
         }
     }
 }

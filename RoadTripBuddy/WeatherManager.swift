@@ -45,6 +45,27 @@ class WeatherManager {
         }
     }
     
+    public static let WMO_IMAGE_REFERENCE = [
+        0: "sun.max.fill", // clear sky
+        1: "cloud.sun.fill", // partly cloudy
+        2: "cloud.sun.fill",
+        3: "cloud.sun.fill",
+        45: "cloud.fog.fill", // fog
+        48: "cloud.fog.fill",
+        51: "cloud.drizzle.fill", // drizzle
+        52: "cloud.drizzle.fill",
+        53: "cloud.drizzle.fill",
+        61: "cloud.rain.fill", // rain
+        63: "cloud.rain.fill",
+        65: "cloud.rain.fill",
+        66: "cloud.moon.rain.fill", // freezing rain
+        67: "cloud.moon.rain.fill",
+        71: "cloud.snow.fill", // snow
+        73: "cloud.snow.fill",
+        75: "cloud.snow.fill",
+        95: "cloud.bolt.rain.fill", // thunderstorm
+    ]
+    
     struct MeteoResponse: Decodable {
         let longitude, elevation: Double
         let hourly: Hourly
@@ -71,7 +92,7 @@ class WeatherManager {
         }
     }
     
-    struct WeatherConditions {
+    public struct WeatherConditions {
         var weathercode: Int;
         var tempFah: Double;
     }
