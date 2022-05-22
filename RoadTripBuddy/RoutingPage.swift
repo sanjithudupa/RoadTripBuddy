@@ -163,6 +163,16 @@ struct RoutingPage: View {
                 currentLocation = LocationManager.getInstance().getLocation().coordinate;
                 region = MKCoordinateRegion(center: currentLocation, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
                 
+                
+                WeatherManager.getInstance().getConditionsAtTime(location: currentLocation, time: Date(), cb: { conditions in
+                    
+                    print("Conditions")
+                    print(conditions.weathercode)
+                    print(conditions.tempFah)
+                    
+                })
+
+                
 //                print("fetched")
                 print(currentLocation.latitude)
             }

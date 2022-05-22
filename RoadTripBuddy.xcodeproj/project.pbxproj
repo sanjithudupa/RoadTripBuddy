@@ -23,6 +23,7 @@
 		D8C481B2283A984600960667 /* BusinessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B1283A984600960667 /* BusinessManager.swift */; };
 		D8C481B4283A9D1200960667 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B3283A9D1200960667 /* Util.swift */; };
 		D8C481B6283AB71100960667 /* BusinessViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B5283AB71100960667 /* BusinessViewer.swift */; };
+		D8C481B8283ADE9200960667 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B7283ADE9200960667 /* WeatherManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		D8C481B1283A984600960667 /* BusinessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessManager.swift; sourceTree = "<group>"; };
 		D8C481B3283A9D1200960667 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		D8C481B5283AB71100960667 /* BusinessViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessViewer.swift; sourceTree = "<group>"; };
+		D8C481B7283ADE9200960667 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				D8C481B1283A984600960667 /* BusinessManager.swift */,
 				D8C481B3283A9D1200960667 /* Util.swift */,
 				D8C481B5283AB71100960667 /* BusinessViewer.swift */,
+				D8C481B7283ADE9200960667 /* WeatherManager.swift */,
 			);
 			path = RoadTripBuddy;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				D8C481B6283AB71100960667 /* BusinessViewer.swift in Sources */,
 				D8C481A92839715900960667 /* MappingPage.swift in Sources */,
 				D8C481A328393C1300960667 /* LocationManager.swift in Sources */,
+				D8C481B8283ADE9200960667 /* WeatherManager.swift in Sources */,
 				D8C4819228392F9B00960667 /* ContentView.swift in Sources */,
 				D8C481A12839316400960667 /* RoutingPage.swift in Sources */,
 				D8C481AB28397F5B00960667 /* SharedData.swift in Sources */,
