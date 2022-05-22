@@ -19,7 +19,7 @@ struct MappingPage: View {
     let fabActions = ["Cancel", "Gas", "Food", "Hotel", "Stores"]
     
     @State private var asking = false;
-    @State private var queryRadius = 0;
+    @State private var queryRadius = 0.0;
     
     @State private var loading = false;
     
@@ -271,7 +271,13 @@ struct MappingPage: View {
         loading = true;
         fabSelection = "Cancel";
         let centerPoint = Util.determineSearchPoint(inTheNext: 20)
-        print(centerPoint)
+        
+        BusinessManager.getInstance().searchForBusinesses(type: requestType, center: centerPoint, radius: max(queryRadius, 24.8), callback: { businesses in
+            
+            print("I GOT THE BUSINESSES")
+            loading = false;
+            
+        })
     }
 }
 

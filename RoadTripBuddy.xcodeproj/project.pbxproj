@@ -22,6 +22,7 @@
 		D8C481B0283A971600960667 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481AF283A971600960667 /* Secret.swift */; };
 		D8C481B2283A984600960667 /* BusinessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B1283A984600960667 /* BusinessManager.swift */; };
 		D8C481B4283A9D1200960667 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B3283A9D1200960667 /* Util.swift */; };
+		D8C481B6283AB71100960667 /* BusinessViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C481B5283AB71100960667 /* BusinessViewer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		D8C481AF283A971600960667 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		D8C481B1283A984600960667 /* BusinessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessManager.swift; sourceTree = "<group>"; };
 		D8C481B3283A9D1200960667 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		D8C481B5283AB71100960667 /* BusinessViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessViewer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				D8C481AF283A971600960667 /* Secret.swift */,
 				D8C481B1283A984600960667 /* BusinessManager.swift */,
 				D8C481B3283A9D1200960667 /* Util.swift */,
+				D8C481B5283AB71100960667 /* BusinessViewer.swift */,
 			);
 			path = RoadTripBuddy;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8C481B4283A9D1200960667 /* Util.swift in Sources */,
+				D8C481B6283AB71100960667 /* BusinessViewer.swift in Sources */,
 				D8C481A92839715900960667 /* MappingPage.swift in Sources */,
 				D8C481A328393C1300960667 /* LocationManager.swift in Sources */,
 				D8C4819228392F9B00960667 /* ContentView.swift in Sources */,
