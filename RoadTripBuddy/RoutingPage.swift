@@ -97,6 +97,7 @@ struct RoutingPage: View {
                         .font(.subheadline)
                         .fontWeight(.light)
                         .padding(25)
+                        .multilineTextAlignment(.center)
                 }
 
                 Spacer()
