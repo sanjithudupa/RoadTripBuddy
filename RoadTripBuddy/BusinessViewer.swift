@@ -37,10 +37,7 @@ struct BusinessViewer: View {
         VStack {
             ScrollView() {
                 ForEach(0..<businesses.count, id: \.self) { i in
-                    Business(business: businesses[i])
-                        .highPriorityGesture(LongPressGesture().onEnded {  _ in
-                            callback(businesses[i].name ?? "Unnamed", businesses[i].getCoordinates())
-                        })
+                    Business(business: businesses[i], callback: callback)
                 }
             }
             .padding()
@@ -51,6 +48,7 @@ struct BusinessViewer: View {
 
 struct Business: View {
     @State var business: CDYelpBusiness
+    @State var callback: (String, CLLocationCoordinate2D) -> Void
     
     @State var name: String = "";
     @State var imageURL: URL = .init(string: "https://yelp.com")!;
@@ -67,13 +65,15 @@ struct Business: View {
                 ZStack {
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(name)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .onTapGesture {
-                                    UIApplication.shared.open(link)
-                                }
-                                .frame(width: 250)
+                            HStack {
+                                Text(name)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .onTapGesture {
+                                        UIApplication.shared.open(link)
+                                    }
+                                    .frame(width: 250)
+                            }
                             HStack {
                                 Text(phone)
                                     .onTapGesture {
@@ -93,8 +93,11 @@ struct Business: View {
                         VStack(alignment: .trailing) {
                             Text(String(rating) + " ⭐")
                                 .font(.title3)
-                            Text(price)
-                                .fontWeight(.bold)
+                            HStack {
+                                
+                                Text(price)
+                                    .fontWeight(.bold)
+                            }
                         }
                         .padding()
                     }
@@ -105,6 +108,9 @@ struct Business: View {
                     .frame(width: 350, height: 150)
                     .scaledToFill()
                     .clipped()
+                    .onLongPressGesture {
+                        callback(name, location)
+                    }
 
             }
             HStack {

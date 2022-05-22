@@ -28,7 +28,7 @@ struct MappingPage: View {
     @State private var businesses: [CDYelpBusiness] = [CDYelpBusiness]();
     
 //    @State var attachMarker: (String, CLLocationCoordinate2D) -> Void = { _,_  in }
-    @State private var annotations = [MKPointAnnotation]();
+    @State private var annotations = [MKAnnotation]();
     
     var body: some View {
             ZStack {
@@ -45,7 +45,6 @@ struct MappingPage: View {
                                 .foregroundColor(.white)
                         }
                     }
-                    .labelsHidden()
                     .padding()
                     .frame(width: 60, height: 60)
                     .pickerStyle(.menu)
@@ -155,7 +154,9 @@ struct MappingPage: View {
                         .shadow(radius: 15)
                 }.offset(x: 45 - UIScreen.main.bounds.width/2, y: 80 - UIScreen.main.bounds.height/2)
                     .alert(isPresented: $infoAlert) {
-                        Alert(title: Text("Route Details:"), message: Text(getRouteDescription()), dismissButton: .default(Text("OK")))
+                        Alert(title: Text("Route Details:"), message: Text(getRouteDescription()), primaryButton: .destructive(Text("End Directions"), action: {
+                            self.env.currentPage = .Planning;
+                        }), secondaryButton: .default(Text("OK")))
                     }
                 
                 ZStack {
@@ -302,7 +303,7 @@ struct MappingPage: View {
 struct MapView: UIViewRepresentable {
 
     @Binding var region: MKCoordinateRegion
-    @Binding var annotations: [MKPointAnnotation]
+    @Binding var annotations: [MKAnnotation]
     let inputPolyline: MKPolyline
     
     var neededAnnotation: MKAnnotation? = nil;
@@ -315,6 +316,7 @@ struct MapView: UIViewRepresentable {
         let polyline = inputPolyline
         mapView.addOverlay(polyline)
         
+//        mapView.addAnnotation(MKCircle(center: polyline.coordinates.last!, radius: 5))
         return mapView
     }
 
@@ -339,7 +341,7 @@ class Coordinator: NSObject, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let routePolyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: routePolyline)
-            renderer.strokeColor = UIColor.systemOrange
+            renderer.strokeColor = UIColor.orange
             renderer.lineWidth = 10
             return renderer
         }
