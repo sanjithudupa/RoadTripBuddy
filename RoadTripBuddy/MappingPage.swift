@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import CDYelpFusionKit
 
 struct MappingPage: View {
     @EnvironmentObject var env : AppEnvironmentData
@@ -23,11 +24,16 @@ struct MappingPage: View {
     
     @State private var loading = false;
     
+    @State private var showingBusinesses = false;
+    @State private var businesses: [CDYelpBusiness] = [CDYelpBusiness]();
+    
+//    @State var attachMarker: (String, CLLocationCoordinate2D) -> Void = { _,_  in }
+    @State private var annotations = [MKPointAnnotation]();
     
     var body: some View {
             ZStack {
                 MapView(
-                    region: $region,
+                    region: $region, annotations: $annotations,
                     inputPolyline: SharedData.getInstance().chosenRoute.polyline
                 )
                 .edgesIgnoringSafeArea(.all)
@@ -218,7 +224,9 @@ struct MappingPage: View {
                 }
                 .opacity(loading ? 1 : 0)
                 .animation(.spring(), value: loading)
-
+                .sheet(isPresented: $showingBusinesses) {
+                    BusinessViewer(businesses: $businesses, callback: indicateToAttachMarker)
+                }
                 
             }
             .navigationBarHidden(true).navigationBarTitle("")
@@ -272,12 +280,21 @@ struct MappingPage: View {
         fabSelection = "Cancel";
         let centerPoint = Util.determineSearchPoint(inTheNext: 20)
         
-        BusinessManager.getInstance().searchForBusinesses(type: requestType, center: centerPoint, radius: max(queryRadius, 24.8), callback: { businesses in
+        BusinessManager.getInstance().searchForBusinesses(type: requestType, center: centerPoint, radius: max(queryRadius, 24.8), callback: { bz in
             
-            print("I GOT THE BUSINESSES")
+            businesses = bz;
             loading = false;
             
+            showingBusinesses = true;
         })
+    }
+    
+    func indicateToAttachMarker(s: String, l: CLLocationCoordinate2D) {
+        showingBusinesses = false;
+        let annotation = MKPointAnnotation();
+        annotation.title = s;
+        annotation.coordinate = l;
+        annotations.append(annotation);
     }
 }
 
@@ -285,21 +302,26 @@ struct MappingPage: View {
 struct MapView: UIViewRepresentable {
 
     @Binding var region: MKCoordinateRegion
+    @Binding var annotations: [MKPointAnnotation]
     let inputPolyline: MKPolyline
+    
+    var neededAnnotation: MKAnnotation? = nil;
+    var mapView: MKMapView = MKMapView();
 
     func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
         mapView.delegate = context.coordinator
-        mapView.region = region
         mapView.showsUserLocation = true
 
         let polyline = inputPolyline
         mapView.addOverlay(polyline)
-
+        
         return mapView
     }
 
-    func updateUIView(_ view: MKMapView, context: Context) {}
+    func updateUIView(_ view: MKMapView, context: Context) {
+        view.addAnnotations(annotations)
+        view.region = region
+    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -317,7 +339,7 @@ class Coordinator: NSObject, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let routePolyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: routePolyline)
-            renderer.strokeColor = UIColor.systemBlue
+            renderer.strokeColor = UIColor.systemOrange
             renderer.lineWidth = 10
             return renderer
         }
