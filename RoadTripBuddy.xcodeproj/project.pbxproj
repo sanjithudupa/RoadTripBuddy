@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D8C4819028392F9B00960667 /* RoadTripBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C4818F28392F9B00960667 /* RoadTripBuddyApp.swift */; };
-		D8C4819228392F9B00960667 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C4819128392F9B00960667 /* ContentView.swift */; };
 		D8C4819428392F9D00960667 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8C4819328392F9D00960667 /* Assets.xcassets */; };
 		D8C4819728392F9D00960667 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8C4819628392F9D00960667 /* Preview Assets.xcassets */; };
 		D8C4819F283930CE00960667 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C4819E283930CE00960667 /* MapKit.framework */; };
@@ -29,7 +28,6 @@
 /* Begin PBXFileReference section */
 		D8C4818C28392F9B00960667 /* RoadTripBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoadTripBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C4818F28392F9B00960667 /* RoadTripBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadTripBuddyApp.swift; sourceTree = "<group>"; };
-		D8C4819128392F9B00960667 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D8C4819328392F9D00960667 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8C4819628392F9D00960667 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D8C4819E283930CE00960667 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -79,21 +77,12 @@
 		D8C4818E28392F9B00960667 /* RoadTripBuddy */ = {
 			isa = PBXGroup;
 			children = (
+				D8C481BD283B084A00960667 /* Util */,
+				D8C481BC283B082E00960667 /* Managers */,
+				D8C481B9283B07E600960667 /* Views */,
 				D8C4818F28392F9B00960667 /* RoadTripBuddyApp.swift */,
-				D8C4819128392F9B00960667 /* ContentView.swift */,
 				D8C4819328392F9D00960667 /* Assets.xcassets */,
 				D8C4819528392F9D00960667 /* Preview Content */,
-				D8C481A02839316400960667 /* RoutingPage.swift */,
-				D8C481A228393C1300960667 /* LocationManager.swift */,
-				D8C481A42839499700960667 /* TargetChooser.swift */,
-				D8C481A628395D7B00960667 /* VisualEffectView.swift */,
-				D8C481A82839715900960667 /* MappingPage.swift */,
-				D8C481AA28397F5B00960667 /* SharedData.swift */,
-				D8C481AF283A971600960667 /* Secret.swift */,
-				D8C481B1283A984600960667 /* BusinessManager.swift */,
-				D8C481B3283A9D1200960667 /* Util.swift */,
-				D8C481B5283AB71100960667 /* BusinessViewer.swift */,
-				D8C481B7283ADE9200960667 /* WeatherManager.swift */,
 			);
 			path = RoadTripBuddy;
 			sourceTree = "<group>";
@@ -112,6 +101,54 @@
 				D8C4819E283930CE00960667 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D8C481B9283B07E600960667 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D8C481BB283B080400960667 /* Utility Views */,
+				D8C481BA283B07FA00960667 /* Pages */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D8C481BA283B07FA00960667 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				D8C481A82839715900960667 /* MappingPage.swift */,
+				D8C481A02839316400960667 /* RoutingPage.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		D8C481BB283B080400960667 /* Utility Views */ = {
+			isa = PBXGroup;
+			children = (
+				D8C481B5283AB71100960667 /* BusinessViewer.swift */,
+				D8C481A42839499700960667 /* TargetChooser.swift */,
+				D8C481A628395D7B00960667 /* VisualEffectView.swift */,
+			);
+			path = "Utility Views";
+			sourceTree = "<group>";
+		};
+		D8C481BC283B082E00960667 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D8C481A228393C1300960667 /* LocationManager.swift */,
+				D8C481B1283A984600960667 /* BusinessManager.swift */,
+				D8C481B7283ADE9200960667 /* WeatherManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		D8C481BD283B084A00960667 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D8C481AA28397F5B00960667 /* SharedData.swift */,
+				D8C481AF283A971600960667 /* Secret.swift */,
+				D8C481B3283A9D1200960667 /* Util.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,7 +232,6 @@
 				D8C481A92839715900960667 /* MappingPage.swift in Sources */,
 				D8C481A328393C1300960667 /* LocationManager.swift in Sources */,
 				D8C481B8283ADE9200960667 /* WeatherManager.swift in Sources */,
-				D8C4819228392F9B00960667 /* ContentView.swift in Sources */,
 				D8C481A12839316400960667 /* RoutingPage.swift in Sources */,
 				D8C481AB28397F5B00960667 /* SharedData.swift in Sources */,
 				D8C481B2283A984600960667 /* BusinessManager.swift in Sources */,

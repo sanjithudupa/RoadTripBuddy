@@ -28,7 +28,7 @@ struct RoutingPage: View {
     var body: some View {
         ZStack {
             VStack {
-                Text("Road Trip Companion")
+                Text("RoadTripBuddy")
                     .font(.title)
                     .fontWeight(.heavy)
                 
@@ -57,7 +57,7 @@ struct RoutingPage: View {
                 
                 Text("Going to:")
                 HStack {
-                    TextField("Target Location", text: $target)
+                    TextField("Destination", text: $target)
                         .padding()
                         .textFieldStyle(.roundedBorder)
                     
